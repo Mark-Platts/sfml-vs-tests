@@ -5,10 +5,10 @@
 int main()
 {
     //native NES screen 256:240, 16:15 ratio
-    sf::RenderWindow window(sf::VideoMode(522, 490), "SFML Tests");
-    sf::RectangleShape rectangle(sf::Vector2f(512.f, 480.f));
-    rectangle.setPosition(5.f, 5.f);
-    rectangle.setFillColor(sf::Color::Green);
+    const float initPixScale = 2;
+    sf::RenderWindow window(sf::VideoMode(256*initPixScale, 240*initPixScale), "SFML Tests");
+    sf::RectangleShape pixel(sf::Vector2f(initPixScale, initPixScale));
+
     
 
     while (window.isOpen())
@@ -33,25 +33,17 @@ int main()
             }
         }
 
-        //render sizing logic
-
-        // if (window.getSize().x >= window.getSize().y) {
-        //     layout_margin = window.getSize().x * 0.05;
-        //     layout_width = window.getSize().x * 0.9;
-        //     layout_height = layout_width * 15/16;
-        //     rectangle.setPosition(layout_margin, layout_margin);
-        //     rectangle.setSize(sf::Vector2f(layout_width, layout_height));
-        // }
-
-        // std::cout << "window:" << std::endl;
-        // std::cout << window.getSize().x << std::endl;
-        // std::cout << "position:" << std::endl;
-        // std::cout << layout_pos_x << std::endl;
-        // std::cout << "Size:" << std::endl;
-        // std::cout << layout_size_x << std::endl;
-
+        //render pixels
         window.clear();
-        window.draw(rectangle);
+
+        for (int i = 0; i < 240; i++) {
+            for (int j = 0; j < 256; j++) {
+                pixel.setFillColor(sf::Color(i, j, 0));
+                pixel.setPosition(sf::Vector2f(initPixScale*j, initPixScale*i));
+                window.draw(pixel);
+            }
+        }
+
         window.display();
     }
 
